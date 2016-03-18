@@ -92,7 +92,7 @@ namespace PressRelease.Controllers
         {
             if (User.IsSignedIn())
             {
-                return RedirectToAction(nameof(ManageController.Index), "Manage");
+                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
 
             if (ModelState.IsValid)
