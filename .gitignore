@@ -80,9 +80,6 @@ _TeamCity*
 #Chutzpah test runner extension
 _Chutzpah*
 
-# CoffeeScript-generated JavaScript tests
-**/[Jj]s[Tt]ests/*.js
-
 # NCrunch
 *.ncrunch*
 .*crunch*.local.xml
@@ -195,26 +192,5 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
-#Generated Documentation
-Mogul/Libraries/Adapter/Src/Adapter.xml
-
-AddOnLoader/
-External/NuGet/Packages/
-!External/NuGet/Packages/repositories.config
-External/MSTestReportGen/
-Mogul/Code/WebClient/ClientTier/WebClient/Src/AddOns/
-Mogul/Code/Cfhr/AddOns/
-Harbinger.cmd
-AdministratorInstaller.cmd
-Mogul/Code/WebClient/ClientTier/WebClient/Src/Config/XmlErrorLogs/
-Mogul/Code/WebClient/ClientTier/WebClient/Src/Config/Bundles/
-Mogul/Code/Cfhr/AddOns/
-Mogul/Code/Cfhr/Config/XmlErrorLogs/
-Mogul/Code/Cfhr/Config/Bundles/
-External/[Nn]u[Gg]et.exe
-Build/CareEvolution.ruleset
-Scripts/packages/
-
-
 #node modules
-Mogul/Code/**/node_modules/**
+**/node_modules/**
