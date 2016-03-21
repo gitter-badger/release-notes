@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AspNet.Security.OAuth.GitHub;
 using Microsoft.AspNet.Authentication.Cookies;
+using Microsoft.AspNet.Authentication.OAuth;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
@@ -100,8 +102,10 @@ namespace PressRelease
 			app.UseGitHubAuthentication(
 				new GitHubAuthenticationOptions
 				{
+					SaveTokensAsClaims = true,
 					ClientId = "f862c3e7ec79cbe519e4",
 					ClientSecret = "d42344973ba23706d18b4c17ef33759df8f2b8f4",
+					AuthenticationScheme = GitHubAuthenticationDefaults.AuthenticationScheme,
 					Scope = { "user:email", "repo" },
 					CallbackPath = "/Home/Index"
 				} );
