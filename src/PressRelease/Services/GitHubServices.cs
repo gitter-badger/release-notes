@@ -6,29 +6,59 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using PressRelease.Models;
 
 namespace PressRelease.Services
 {
-	public class GitHubServices
+	public interface IGitHubClient
 	{
-		public GitHubServices(string accessToken)
-		{
-			_accessToken = accessToken;
-		}
+		Task<string> GetBranchesAsync( string accessToken );
+		Task<IEnumerable<string>> GetRepositoriesAsync( string accessToken );
+	}
 
-		public async Task<string> GetUserAsync()
+	public class GitHubClient : IGitHubClient, IDisposable
+	{
+		public GitHubClient()
 		{
-			using ( var client = new HttpClient() )
+			_httpClient = new HttpClient
 			{
-				client.BaseAddress = new Uri( "https://api.github.com/" );
-				client.DefaultRequestHeaders.Clear();
-				client.DefaultRequestHeaders.Add( "user-agent", "Custom" );
-
-				var info = await client.GetAsync( $"user?access_token={_accessToken}" );
-				return await info.Content.ReadAsStringAsync();
-			}
+				BaseAddress = new Uri( "https://api.github.com/" ),
+				DefaultRequestHeaders =
+				{
+					{ "user-agent", "Custom" }
+				}
+			};
 		}
 
-		private readonly string _accessToken;
+		public async Task<string> GetBranchesAsync( string accessToken )
+		{
+			var info = await _httpClient.GetAsync( $"user/repos?access_token={accessToken}" );
+			return await info.Content.ReadAsStringAsync();
+		}
+
+		public async Task<IEnumerable<string>> GetRepositoriesAsync( string accessToken )
+		{
+			var info = await _httpClient.GetAsync( $"user/repos?type=all&access_token={accessToken}" );
+			var asString = await info.Content.ReadAsStringAsync();
+			var arr = JArray.Parse(asString);
+			return new string[0];
+		}
+
+		public void Dispose()
+		{
+			if ( !_isDisposed )
+			{
+				_isDisposed = true;
+				_httpClient.Dispose();
+			}
+			throw new NotImplementedException();
+		}
+
+		private bool _isDisposed;
+		private readonly HttpClient _httpClient;
 	}
 }

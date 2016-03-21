@@ -12,18 +12,17 @@ namespace PressRelease.Controllers
 	[Authorize]
 	public class PressController : Controller
 	{
-		private readonly SignInManager<ApplicationUser> _signInManager;
+		private readonly IGitHubClient _github;
 
 		public PressController(
-			SignInManager<ApplicationUser> signInManager )
+			IGitHubClient github )
 		{
-			_signInManager = signInManager;
+			_github = github;
 		}
 
 		public async Task<IActionResult> Index()
 		{
-			var x = new GitHubServices( User.FindFirstValue( "access_token" ) );
-			var user = await x.GetUserAsync();
+			var repos = await _github.GetRepositoriesAsync( User.FindFirstValue( "access_token" ) );
 			return View();
 		}
 	}

@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PressRelease.Models;
+using PressRelease.Services;
 
 namespace PressRelease
 {
@@ -49,10 +50,11 @@ namespace PressRelease
 					 options.UseSqlServer( Configuration["Data:DefaultConnection:ConnectionString"] ) );
 
 			services.AddIdentity<ApplicationUser, IdentityRole>()
-				.AddEntityFrameworkStores<ApplicationDbContext>()
-				.AddDefaultTokenProviders();
+				.AddEntityFrameworkStores<ApplicationDbContext>();
 
 			services.AddMvc();
+
+			services.AddTransient( typeof( IGitHubClient ), typeof(GitHubClient) );
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
