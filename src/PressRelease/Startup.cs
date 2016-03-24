@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using AspNet.Security.OAuth.GitHub;
 using Microsoft.AspNet.Authentication.Cookies;
-using Microsoft.AspNet.Authentication.OAuth;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
@@ -54,7 +48,7 @@ namespace PressRelease
 
 			services.AddMvc();
 
-			services.AddTransient( typeof( IGitHubClient ), typeof(GitHubClient) );
+			services.AddTransient( typeof( IGitHubClient ), typeof( GitHubClient ) );
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -97,10 +91,11 @@ namespace PressRelease
 				{
 					AutomaticAuthenticate = true,
 					AutomaticChallenge = true,
-					AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme,
-					LoginPath = new PathString( "/Account/Login" )
+					SlidingExpiration = true,
+					ExpireTimeSpan = TimeSpan.FromDays( 30 ),
+					AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme
 				} );
-			
+
 			app.UseGitHubAuthentication(
 				new GitHubAuthenticationOptions
 				{

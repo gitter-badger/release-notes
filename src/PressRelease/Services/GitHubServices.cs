@@ -1,16 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Identity;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using PressRelease.Models;
 
 namespace PressRelease.Services
 {
@@ -43,8 +35,12 @@ namespace PressRelease.Services
 		public async Task<IEnumerable<string>> GetRepositoriesAsync( string accessToken )
 		{
 			var info = await _httpClient.GetAsync( $"user/repos?type=all&access_token={accessToken}" );
+			if ( !info.IsSuccessStatusCode )
+			{
+				throw new InvalidOperationException( "API call failed" );
+			}
 			var asString = await info.Content.ReadAsStringAsync();
-			var arr = JArray.Parse(asString);
+			var arr = JArray.Parse( asString );
 			return new string[0];
 		}
 
@@ -55,7 +51,6 @@ namespace PressRelease.Services
 				_isDisposed = true;
 				_httpClient.Dispose();
 			}
-			throw new NotImplementedException();
 		}
 
 		private bool _isDisposed;

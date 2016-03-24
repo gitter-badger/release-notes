@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AspNet.Security.OAuth.GitHub;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Rendering;
-using Microsoft.Data.Entity;
 using Microsoft.Extensions.Logging;
 using PressRelease.Models;
-using PressRelease.Services;
-using PressRelease.ViewModels.Account;
 
 namespace PressRelease.Controllers
 {
@@ -71,6 +65,14 @@ namespace PressRelease.Controllers
 				return RedirectToAction( nameof( HomeController.Index ), "Home" );
 			}
 
+
+			var user = await _userManager.FindByLoginAsync( info.LoginProvider, info.ProviderKey );
+			if ( user != null )
+			{
+				var claims = await _userManager.GetClaimsAsync( user );
+				await _userManager.ReplaceClaimAsync( user, claims.Single( c => c.Type == "access_token" ), info.ExternalPrincipal.FindFirst( "access_token" ) );
+			}
+
 			// Sign in the user with this external login provider if the user already has a login.
 			var result = await _signInManager.ExternalLoginSignInAsync( info.LoginProvider, info.ProviderKey, isPersistent: false );
 			if ( result.Succeeded )
@@ -79,51 +81,29 @@ namespace PressRelease.Controllers
 				return RedirectToLocal( returnUrl );
 			}
 
-			// If the user does not have an account, then ask the user to create an account.
+			// If the user does not have an account, then create an account.
 			ViewData["ReturnUrl"] = returnUrl;
-			ViewData["LoginProvider"] = info.LoginProvider;
 			var email = info.ExternalPrincipal.FindFirstValue( ClaimTypes.Email );
-			return View( "ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email } );
-		}
 
-		//
-		// POST: /Account/ExternalLoginConfirmation
-		[HttpPost]
-		[AllowAnonymous]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> ExternalLoginConfirmation( ExternalLoginConfirmationViewModel model, string returnUrl = null )
-		{
-			if ( User.IsSignedIn() )
+			var newUser = new ApplicationUser
 			{
-				return RedirectToAction( nameof( PressController.Index ), "Press" );
-			}
-
-			if ( ModelState.IsValid )
+				UserName = email,
+				Email = email
+			};
+			var newUserResult = await _userManager.CreateAsync( newUser );
+			if ( newUserResult.Succeeded )
 			{
-				// Get the information about the user from the external login provider
-				var info = await _signInManager.GetExternalLoginInfoAsync();
-				if ( info == null )
+				newUserResult = await _userManager.AddLoginAsync( newUser, info );
+				if ( newUserResult.Succeeded )
 				{
-					return View( "ExternalLoginFailure" );
+					await _userManager.AddClaimAsync( newUser, info.ExternalPrincipal.FindFirst( "access_token" ) );
+					await _signInManager.SignInAsync( newUser, isPersistent: false );
+					_logger.LogInformation( 6, "User created an account using {Name} provider.", info.LoginProvider );
+					return RedirectToLocal( returnUrl );
 				}
-				var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-				var result = await _userManager.CreateAsync( user );
-				if ( result.Succeeded )
-				{
-					result = await _userManager.AddLoginAsync( user, info );
-					if ( result.Succeeded )
-					{
-						await _userManager.AddClaimAsync( user, info.ExternalPrincipal.FindFirst( "access_token" ) );
-						await _signInManager.SignInAsync( user, isPersistent: false );
-						_logger.LogInformation( 6, "User created an account using {Name} provider.", info.LoginProvider );
-						return RedirectToLocal( returnUrl );
-					}
-				}
-				AddErrors( result );
 			}
-
-			ViewData["ReturnUrl"] = returnUrl;
-			return View( model );
+			AddErrors( newUserResult );
+			return View( "ExternalLoginFailure" );
 		}
 
 		#region Helpers
