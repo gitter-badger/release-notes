@@ -100,13 +100,13 @@ namespace PressRelease
 					AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme,
 					LoginPath = new PathString( "/Account/Login" )
 				} );
-
+			
 			app.UseGitHubAuthentication(
 				new GitHubAuthenticationOptions
 				{
 					SaveTokensAsClaims = true,
-					ClientId = "f862c3e7ec79cbe519e4",
-					ClientSecret = "d42344973ba23706d18b4c17ef33759df8f2b8f4",
+					ClientId = Configuration["github:clientid"],
+					ClientSecret = Configuration["github:clientsecret"],
 					AuthenticationScheme = GitHubAuthenticationDefaults.AuthenticationScheme,
 					Scope = { "user:email", "repo" },
 					CallbackPath = "/Home/Index"
