@@ -30,7 +30,7 @@ namespace PressRelease.Controllers
 			try
 			{
 
-				var repos = await _github.GetRepositoriesAsync( User.FindFirstValue( "access_token" ) );
+				var repos = await _github.GetAllRepositoriesAsync();
 				return View();
 			}
 			catch

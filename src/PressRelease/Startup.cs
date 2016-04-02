@@ -48,7 +48,7 @@ namespace PressRelease
 
 			services.AddMvc();
 
-			services.AddTransient( typeof( IGitHubClient ), typeof( GitHubClient ) );
+			services.AddTransient<IGitHubClient, GitHubClient>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
