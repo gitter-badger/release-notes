@@ -29,7 +29,6 @@ namespace PressRelease.Controllers
 		{
 			try
 			{
-
 				var repos = await _github.GetAllRepositoriesAsync();
 				return View();
 			}

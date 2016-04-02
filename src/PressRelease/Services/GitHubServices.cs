@@ -39,7 +39,7 @@ namespace PressRelease.Services
 
 		public async Task<IReadOnlyCollection<string>> GetAllRepositoriesAsync()
 		{
-			var nextPageUri = "user/repos?&per_page=100";
+			var nextPageUri = new Uri( "user/repos?&per_page=100", UriKind.Relative );
 
 			var result = Enumerable.Empty<string>();
 			do
@@ -50,25 +50,15 @@ namespace PressRelease.Services
 					throw new InvalidOperationException( "API call failed" );
 				}
 
-				IEnumerable<string> links;
-				info.Headers.TryGetValues( "Link", out links );
-
-				var matches = links.SelectMany( l => ParseLinkHeader.Matches( l ).Cast<Match>() );
-				var linkUris = ( from match in matches
-								 from rel in match.Groups["rel"].Captures.Cast<Capture>()
-								 from uri in match.Groups["uri"].Captures.Cast<Capture>()
-								 select new
-								 {
-									 rel = rel.Value,
-									 uri = uri.Value
-								 } ).ToDictionary( l => l.rel, l => l.uri );
-
-				linkUris.TryGetValue( "next", out nextPageUri );
+				nextPageUri = info.Headers.LinkHeaders()
+					.Where( l => l.Rel == "next" )
+					.Select( l => l.Uri )
+					.SingleOrDefault();
 
 				var asString = await info.Content.ReadAsStringAsync();
 				var arr = JArray.Parse( asString );
 				result = result.Concat( arr.Select( a => a.SelectToken( "name" ).ToString() ) );
-			} while ( !String.IsNullOrWhiteSpace( nextPageUri ) );
+			} while ( nextPageUri != null );
 			return result.ToList();
 		}
 
@@ -83,6 +73,5 @@ namespace PressRelease.Services
 
 		private bool _isDisposed;
 		private readonly HttpClient _httpClient;
-		private static readonly Regex ParseLinkHeader = new Regex( "<(?<uri>[a-zA-Z:/.?=%0-9&+_]*)>; rel=\"(?<rel>[a-z]*)\"", RegexOptions.Compiled );
 	}
 }
