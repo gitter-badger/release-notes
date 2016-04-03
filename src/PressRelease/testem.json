@@ -4,5 +4,6 @@
         "wwwroot/js/**/*.js",
         "spec/*[sS]pec.js"
     ],
+    "src_files_ignore": "wwwroot/js/**/*.min.js",
     "launch_in_dev": ["Chrome", "PhantomJS"]
 }
