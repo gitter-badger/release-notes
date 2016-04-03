@@ -1,0 +1,7 @@
+{
+    "framework": "jasmine2",
+    "src_files": [
+        "wwwroot/js/**/*.js",
+        "tests/**/*.js"
+    ]
+}
