@@ -10,6 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PressRelease.Models;
 using PressRelease.Services;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Converters;
 
 namespace PressRelease
 {
@@ -40,13 +43,15 @@ namespace PressRelease
 			// Add framework services.
 			services.AddEntityFramework()
 				.AddSqlServer()
-				.AddDbContext<ApplicationDbContext>( options =>
-					 options.UseSqlServer( Configuration["Data:DefaultConnection:ConnectionString"] ) );
+				.AddDbContext<ApplicationDbContext>( o => o.UseSqlServer( Configuration["Data:DefaultConnection:ConnectionString"] ) );
 
 			services.AddIdentity<ApplicationUser, IdentityRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>();
 
-			services.AddMvc();
+			services.AddMvc()
+				.AddJsonOptions( o => o.SerializerSettings.Formatting = Formatting.Indented )
+				.AddJsonOptions( o => o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver() )
+				.AddJsonOptions( o => o.SerializerSettings.Converters.Add( new StringEnumConverter() ) );
 
 			services.AddTransient<IGitHubClient, GitHubClient>();
 		}
