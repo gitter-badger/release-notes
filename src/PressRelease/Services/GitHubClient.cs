@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNet.Http;
-using System.Text.RegularExpressions;
 
 namespace PressRelease.Services
 {
 	public interface IGitHubClient
 	{
-		Task<string> GetBranchesAsync();
 		Task<IReadOnlyCollection<string>> GetAllRepositoriesAsync();
 	}
 
@@ -29,12 +27,6 @@ namespace PressRelease.Services
 					{ "Authorization", $"token {contextAccessor.HttpContext.User.FindFirstValue( "access_token" )}" }
 				}
 			};
-		}
-
-		public async Task<string> GetBranchesAsync()
-		{
-			var info = await _httpClient.GetAsync( $"user/repos" );
-			return await info.Content.ReadAsStringAsync();
 		}
 
 		public async Task<IReadOnlyCollection<string>> GetAllRepositoriesAsync()
