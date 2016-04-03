@@ -1,11 +1,19 @@
-﻿@{
+﻿@using System.Security.Claims
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="row">
     <section class="col-md-12">
         <h2>Welcome to <span class="text-primary">PressRelease</span> by CareEvolution, Inc.</h2>
-        <p>Login to continue.</p>
+        @if ( User.IsSignedIn() )
+        {
+            <p>We're going to have some fun!</p>
+        }
+        else
+        {
+            <p>Login to continue.</p>
+        }
     </section>
 </div>
 <div class="row">

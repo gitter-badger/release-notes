@@ -25,18 +25,18 @@ namespace PressRelease.Controllers
 			_signInManager = signInManager;
 		}
 
-		public async Task<IActionResult> Index()
-		{
-			try
-			{
-				var repos = await _github.GetAllRepositoriesAsync();
-				return View();
-			}
-			catch
-			{
-				await _signInManager.SignOutAsync();
-				return RedirectToAction( nameof( HomeController.Index ), "Home" );
-			}
-		}
+		//public async Task<IActionResult> Index()
+		//{
+		//	try
+		//	{
+		//		var repos = await _github.GetAllRepositoriesAsync();
+		//		return View();
+		//	}
+		//	catch
+		//	{
+		//		await _signInManager.SignOutAsync();
+		//		return RedirectToAction( nameof( HomeController.Index ), "Home" );
+		//	}
+		//}
 	}
 }

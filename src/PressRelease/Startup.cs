@@ -47,13 +47,13 @@ namespace PressRelease
 
 			services.AddIdentity<ApplicationUser, IdentityRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>();
-
+			
 			services.AddMvc()
 				.AddJsonOptions( o => o.SerializerSettings.Formatting = Formatting.Indented )
 				.AddJsonOptions( o => o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver() )
 				.AddJsonOptions( o => o.SerializerSettings.Converters.Add( new StringEnumConverter() ) );
 
-			services.AddTransient<IGitHubClient, GitHubClient>();
+			services.AddScoped<IGitHubClient, GitHubClient>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

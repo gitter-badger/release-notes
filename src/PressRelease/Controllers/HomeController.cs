@@ -7,10 +7,6 @@ namespace PressRelease.Controllers
 	{
 		public IActionResult Index()
 		{
-			if ( User.IsSignedIn() )
-			{
-				return RedirectToAction( nameof( PressController.Index ), "Press" );
-			}
 			return View();
 		}
 
