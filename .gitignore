@@ -195,5 +195,9 @@ pip-log.txt
 #node modules
 **/node_modules/**
 
+#test output
+**/spec/transpiled/**
+
+#bower components
 !**/bower_components/**
 !**/wwwroot/**
