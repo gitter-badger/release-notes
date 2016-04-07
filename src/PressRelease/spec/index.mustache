@@ -1,0 +1,24 @@
+<html>  
+  <head>
+    <title>Test'em</title>
+    <link rel="shortcut icon" type="image/png" href="/node_modules/jasmine-core/images/jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="/node_modules/jasmine-core/lib/jasmine-core/jasmine.css">
+    <script type="text/javascript" src="/node_modules/jasmine-core/lib/jasmine-core/jasmine.js"></script>
+    <script type="text/javascript" src="/node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+    <script type="text/javascript" src="/node_modules/babel-polyfill/dist/polyfill.js"></script>
+    <script type="text/javascript" src="/wwwroot/lib/requirejs/require.js"></script>
+    {{#styles}}<link rel="stylesheet" href="{{.}}">{{/styles}}
+  </head>
+  <body>
+    <div id="jasmine"></div>
+    <script>
+      var files = [];
+      {{#serve_files}}
+        files.push("../{{{src}}}");
+      {{/serve_files}}
+        require(["../node_modules/jasmine-core/lib/jasmine-core/boot.js"]);
+        require(files);
+        require(["/testem.js"], function() { window.onload(); });
+    </script>
+  </body>  
+</html>  

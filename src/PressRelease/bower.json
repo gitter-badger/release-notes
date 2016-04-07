@@ -10,5 +10,7 @@
     "angular-resource": "^1.5.3",
     "angular-route": "^1.5.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "requirejs": "^2.2.0"
+  }
 }

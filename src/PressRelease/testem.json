@@ -1,9 +1,12 @@
 {
     "framework": "jasmine2",
+    "before_tests": "\".\\node_modules\\.bin\\babel\" spec -d spec/transpiled",
+    "after_tests": "rmdir /S /Q \"spec\\transpiled\"",
     "src_files": [
-        "wwwroot/js/**/*.js",
-        "spec/*[sS]pec.js"
+        "spec/*[sS]pec.es6.js"
     ],
-    "src_files_ignore": "wwwroot/js/**/*.min.js",
-    "launch_in_dev": ["Chrome", "PhantomJS"]
+    "serve_files": "spec/transpiled/*.js",
+    "launch_in_dev": ["Chrome", "PhantomJS"],
+    "launch_in_ci": ["PhantomJS"],
+    "test_page": "spec/index.mustache"
 }
