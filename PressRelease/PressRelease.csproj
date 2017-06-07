@@ -38,7 +38,10 @@
   <Target Name="MyPreCompileTarget" BeforeTargets="Build">
     <Exec Command="gulp build" />
   </Target>
-  <Target Name="MyPreRestoreTarget" AfterTargets="Restore">
+  <Target Name="MyPostRestoreTarget" AfterTargets="Restore">
     <Exec Command="yarn" />
+  </Target>
+  <Target Name="MyPostCleanTarget" AfterTargets="Clean">
+    <Exec Command="gulp clean" />
   </Target>
 </Project>
