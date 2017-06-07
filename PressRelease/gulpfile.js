@@ -58,7 +58,7 @@ gulp.task("min:js", function () {
     var tasks = getBundles(regex.js).map(function (bundle) {
         return gulp.src(bundle.inputFiles, { base: "." })
             .pipe(sourcemaps.init())
-            .pipe(concat(bundle.outputFileName))
+            .pipe(concat(makeMinified(bundle.outputFileName)))
             .pipe(uglify())
             .pipe(sourcemaps.write("."))
             .pipe(gulp.dest("."));
@@ -70,7 +70,7 @@ gulp.task("min:css", function () {
     var tasks = getBundles(regex.css).map(function (bundle) {
         return gulp.src(bundle.inputFiles, { base: "." })
             .pipe(sourcemaps.init())
-            .pipe(concat(bundle.outputFileName))
+            .pipe(concat(makeMinified(bundle.outputFileName)))
             .pipe(cssmin())
             .pipe(sourcemaps.write("."))
             .pipe(gulp.dest("."));
@@ -81,7 +81,7 @@ gulp.task("min:css", function () {
 gulp.task("min:html", function () {
     var tasks = getBundles(regex.html).map(function (bundle) {
         return gulp.src(bundle.inputFiles, { base: "." })
-            .pipe(concat(bundle.outputFileName))
+            .pipe(concat(makeMinified(bundle.outputFileName)))
             .pipe(htmlmin({ collapseWhitespace: true, minifyCSS: true, minifyJS: true }))
             .pipe(gulp.dest("."));
     });
@@ -117,4 +117,12 @@ function getBundles(regexPattern, minify) {
         bundle.minifyOnly = bundle.outputFileName.indexOf(".min.") >= 0;
         return regexPattern.test(bundle.outputFileName);
     });
+}
+
+function makeMinified(path) {
+    var minLoc = path.lastIndexOf(".min.");
+    if (minLoc >= 0) return path;
+
+    var extLoc = path.lastIndexOf(".");
+    return path.splice(extLoc, ".min");
 }
