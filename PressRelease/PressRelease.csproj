@@ -38,7 +38,7 @@
   <Target Name="MyPreCompileTarget" BeforeTargets="Build">
     <Exec Command="gulp min" />
   </Target>
-  <Target Name="MyPreRestoreTarget" BeforeTargets="Restore">
+  <Target Name="MyPreRestoreTarget" AfterTargets="Restore">
     <Exec Command="yarn" />
   </Target>
 </Project>
