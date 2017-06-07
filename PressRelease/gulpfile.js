@@ -124,5 +124,5 @@ function makeMinified(path) {
     if (minLoc >= 0) return path;
 
     var extLoc = path.lastIndexOf(".");
-    return path.splice(extLoc, ".min");
+    return path.slice(0, extLoc) + ".min" + path.slice(extLoc);
 }
