@@ -1,0 +1,25 @@
+{
+  "name": "press-release",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Utility for generating release notes from GitHub commits/PRs/Issues",
+  "repository": "git@github.com:somewhatabstract/PressRelease",
+  "author": "Jeff Yates <jeff.yates@alumni.manchester.ac.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/somewhatabstract/PressRelease/issues"
+  },
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-uglify": "^3.0.0",
+    "jquery": "^3.2.1",
+    "jquery-validation": "^1.16.0",
+    "jquery-validation-unobtrusive": "^3.2.6",
+    "merge-stream": "^1.0.1"
+  }
+}
