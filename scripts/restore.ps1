@@ -1,7 +1,7 @@
 [Parameter()][string]$SolutionPath
 
 if (!$SolutionPath) {
-    $SolutionPath = $cwd
+    $SolutionPath = Get-Location
 }
 
 if (!(Test-Path $SolutionPath -PathType Container)) {
@@ -10,7 +10,7 @@ if (!(Test-Path $SolutionPath -PathType Container)) {
 
 Push-Location $SolutionPath
 try {
-    Get-ChildItem *.*proj -File -Recurse | ForEach-Object {
+    Get-ChildItem *.csproj -File -Recurse | ForEach-Object {
         Push-Location $_.Directory.FullName
         try {
             . dotnet restore
