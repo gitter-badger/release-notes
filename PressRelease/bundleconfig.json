@@ -28,7 +28,7 @@
   {
     "outputFileName": "wwwroot/js/site.js",
     "inputFiles": [
-      "Script/**.js"
+      "Script/**/*.js"
     ]
   },
   {
