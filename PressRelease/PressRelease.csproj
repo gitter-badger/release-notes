@@ -38,7 +38,8 @@
   <Target Name="MyPreCompileTarget" BeforeTargets="Build">
     <Exec Command="gulp build" />
   </Target>
-  <Target Name="MyPostRestoreTarget" AfterTargets="Restore">
+  <!-- We should use AfterTargets="Restore" here but that doesn't work when building from the SLN directory. This is a workaround. -->
+  <Target Name="MyPostRestoreTarget" AfterTargets="_GenerateRestoreProjectSpec">
     <Exec Command="yarn" />
   </Target>
   <Target Name="MyPostCleanTarget" AfterTargets="Clean">
