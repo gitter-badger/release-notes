@@ -19,7 +19,11 @@
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in with GitHub</a></li>
-    </ul>
+    <form asp-controller="Account" asp-action="Login" method="post" id="loginForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log in with GitHub</button>
+            </li>
+        </ul>
+    </form>
 }

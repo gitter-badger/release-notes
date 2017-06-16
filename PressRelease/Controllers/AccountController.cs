@@ -78,8 +78,7 @@ namespace PressRelease.Controllers
             var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
             if (user != null)
             {
-                var claims = await _userManager.GetClaimsAsync(user);
-                await _userManager.ReplaceClaimAsync(user, claims.Single(c => c.Type == "access_token"), info.Principal.FindFirst("access_token"));
+                await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
             }
 
             // Sign in the user with this external login provider if the user already has a login.
@@ -119,11 +118,6 @@ namespace PressRelease.Controllers
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);
-                }
-
-                if (result.Succeeded)
-                {
-                    result = await _userManager.AddClaimAsync(user, info.Principal.FindFirst("access_token"));
                 }
 
                 if (result.Succeeded)
