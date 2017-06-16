@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNet.Security.OAuth.GitHub;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -11,7 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PressRelease.Data;
 using PressRelease.Models;
-using PressRelease.Services;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Converters;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace PressRelease
 {
@@ -47,11 +52,16 @@ namespace PressRelease
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.AddMvc()
+                    .AddJsonOptions(o =>
+                    {
+                        o.SerializerSettings.Formatting = Formatting.Indented;
+                        o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        o.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    });
 
             // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            //  services.AddScoped<IGitHubClient, GitHubClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,6 +86,23 @@ namespace PressRelease
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                SlidingExpiration = true,
+                ExpireTimeSpan = TimeSpan.FromDays(30),
+                AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme
+            });
+
+            app.UseGitHubAuthentication(new GitHubAuthenticationOptions
+            {
+                SaveTokens = true,
+                ClientId = Configuration["github:clientid"],
+                ClientSecret = Configuration["github:clientsecret"],
+                Scope = { "user:email", "repo" },
+                CallbackPath = "/Home/Index"
+            });
 
             app.UseMvc(routes =>
             {

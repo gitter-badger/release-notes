@@ -8,5 +8,6 @@
         "**/.DS_Store": true,
         "**/obj": true,
         "**/yarn.lock":true
-    }
+    },
+    "editor.formatOnSave": true
 }

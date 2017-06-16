@@ -11,6 +11,7 @@
     <ApplicationInsightsAnnotationResourceId>/subscriptions/3b00bcb0-41d7-4e34-8e0d-fd12d62c3a45/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/PressRelease</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="1.0.0-rc1-final" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.2" />
