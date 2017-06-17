@@ -18,6 +18,7 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration.UserSecrets;
+using Microsoft.ApplicationInsights.Extensibility;
 
 namespace PressRelease
 {
@@ -68,6 +69,8 @@ namespace PressRelease
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            TelemetryConfiguration.Active.InstrumentationKey = Configuration["ApplicationInsights:InstrumentationKey"];
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
@@ -105,12 +108,7 @@ namespace PressRelease
                 CallbackPath = "/Home/Index"
             });
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
         }
     }
 }

@@ -7,8 +7,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <UserSecretsId>aspnet-PressRelease-bc533825-cf0b-4db3-9258-a2bed88027c6</UserSecretsId>
-    <ApplicationInsightsResourceId>/subscriptions/3b00bcb0-41d7-4e34-8e0d-fd12d62c3a45/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/PressRelease</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/3b00bcb0-41d7-4e34-8e0d-fd12d62c3a45/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/PressRelease</ApplicationInsightsAnnotationResourceId>
+    <ApplicationInsightsResourceId>/subscriptions/3b00bcb0-41d7-4e34-8e0d-fd12d62c3a45/resourceGroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/Press%20Release</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/3b00bcb0-41d7-4e34-8e0d-fd12d62c3a45/resourceGroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/Press%20Release</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="1.0.0-rc1-final" />
