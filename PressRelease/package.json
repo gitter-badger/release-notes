@@ -21,9 +21,8 @@
     "jquery": "^3.2.1",
     "jquery-validation": "^1.16.0",
     "jquery-validation-unobtrusive": "^3.2.6",
-    "merge-stream": "^1.0.1"
-  },
-  "dependencies": {
+    "merge-stream": "^1.0.1",
     "font-awesome": "^4.7.0"
-  }
+  },
+  "dependencies": {}
 }
