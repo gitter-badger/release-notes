@@ -20,7 +20,14 @@ gulp.task("build", ["bundle", "min", "fonts"]);
 gulp.task("bundle", ["bundle:js", "bundle:css", "bundle:html"]);
 gulp.task("min", ["min:js", "min:css", "min:html"]);
 
-gulp.task("fonts", function () {
+gulp.task("fonts", ["fafonts", "bsfonts"]);
+
+gulp.task("fafonts", function () {
+    return gulp.src("node_modules/font-awesome/fonts/*.*", { base: "node_modules/font-awesome/" })
+        .pipe(gulp.dest("wwwroot"));
+});
+
+gulp.task("bsfonts", function () {
     return gulp.src("node_modules/bootstrap/dist/fonts/*.*", { base: "node_modules/bootstrap/dist/" })
         .pipe(gulp.dest("wwwroot"));
 });
