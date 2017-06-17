@@ -237,3 +237,4 @@ _Pvt_Extensions
 # Project specific stuff
 *.min.*
 vendor.*
+**/wwwroot/fonts/**
