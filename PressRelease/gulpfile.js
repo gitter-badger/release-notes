@@ -16,9 +16,14 @@ var regex = {
     js: /\.js$/
 };
 
-gulp.task("build", ["bundle", "min"]);
+gulp.task("build", ["bundle", "min", "fonts"]);
 gulp.task("bundle", ["bundle:js", "bundle:css", "bundle:html"]);
 gulp.task("min", ["min:js", "min:css", "min:html"]);
+
+gulp.task("fonts", function () {
+    return gulp.src("node_modules/bootstrap/dist/fonts/*.*", { base: "node_modules/bootstrap/dist/" })
+        .pipe(gulp.dest("wwwroot"));
+});
 
 gulp.task("bundle:js", function () {
     var tasks = getBundles(regex.js).map(function (bundle) {
