@@ -82,7 +82,7 @@ namespace PressRelease
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseStaticFiles();
@@ -105,7 +105,7 @@ namespace PressRelease
                 ClientId = Configuration["github:clientid"],
                 ClientSecret = Configuration["github:clientsecret"],
                 Scope = { "user:email", "repo" },
-                CallbackPath = "/Home/Index"
+                CallbackPath = "/Index"
             });
 
             app.UseMvc();
