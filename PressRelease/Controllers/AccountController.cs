@@ -16,7 +16,7 @@ using PressRelease.Models.AccountViewModels;
 namespace PressRelease.Controllers
 {
     [Authorize]
-    [Route("Account")]
+    [Route("/Account")]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -38,8 +38,7 @@ namespace PressRelease.Controllers
 
         //
         // POST: /Account/Login
-        [HttpPost]
-        [Route("Login")]
+        [HttpPost("Login")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public IActionResult Login(string returnUrl = null)
@@ -53,8 +52,7 @@ namespace PressRelease.Controllers
 
         //
         // POST: /Account/Logout
-        [HttpPost]
-        [Route("Logout")]
+        [HttpPost("Logout")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
@@ -65,8 +63,7 @@ namespace PressRelease.Controllers
 
         //
         // GET: /Account/ExternalLoginCallback
-        [HttpGet]
-        [Route("ExternalLoginCallback")]
+        [HttpGet("ExternalLoginCallback")]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
@@ -104,8 +101,7 @@ namespace PressRelease.Controllers
 
         //
         // POST: /Account/ExternalLoginConfirmation
-        [HttpPost]
-        [Route("ExternalLoginConfirmation")]
+        [HttpPost("ExternalLoginConfirmation")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null)
