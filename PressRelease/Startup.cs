@@ -19,6 +19,8 @@ using Newtonsoft.Json.Converters;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.ApplicationInsights.Extensibility;
+using Octokit;
+using Microsoft.AspNetCore.Identity;
 
 namespace PressRelease
 {
@@ -63,7 +65,9 @@ namespace PressRelease
                     });
 
             // Add application services.
-            //  services.AddScoped<IGitHubClient, GitHubClient>();
+            services.AddScoped(
+                typeof(IGitHubClient),
+                p => new GitHubClient(new ProductHeaderValue(Configuration["github:appname"], Configuration["github:appversion]"])));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
