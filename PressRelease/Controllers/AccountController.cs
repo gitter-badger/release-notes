@@ -134,6 +134,14 @@ namespace PressRelease.Controllers
             return View(model);
         }
 
+        //
+        // GET /Account/AccessDenied
+        [HttpGet("AccessDenied")]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)
