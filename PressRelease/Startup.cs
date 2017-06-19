@@ -21,6 +21,7 @@ using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.ApplicationInsights.Extensibility;
 using Octokit;
 using Microsoft.AspNetCore.Identity;
+using PressRelease.Services;
 
 namespace PressRelease
 {
@@ -65,9 +66,9 @@ namespace PressRelease
                     });
 
             // Add application services.
-            services.AddScoped(
-                typeof(IGitHubClient),
-                p => new GitHubClient(new ProductHeaderValue(Configuration["github:appname"], Configuration["github:appversion]"])));
+            services
+                .Configure<GitHubClientProviderOptions>(o => Configuration.GetSection("GitHubClientProvider").Bind(o))
+                .AddScoped<IGitHubClientProvider, GitHubClientProvider<ApplicationUser>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
