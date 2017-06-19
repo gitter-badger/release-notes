@@ -1,0 +1,18 @@
+@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "Log in";
+}
+<header>
+    <div class="page-header">
+      <h1>@ViewData["Title"]</h1>
+    </div>    
+</header>
+<div class="container">
+    <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" id="inlayLoginForm" class="col-md-offset-4 col-md-4">
+        <button type="submit" class="btn btn-lg btn-block btn-primary btn-default">Log in with <span class="fa fa-github"></span> GitHub</button>
+    </form>
+</div>

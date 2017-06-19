@@ -37,6 +37,17 @@ namespace PressRelease.Controllers
         }
 
         //
+        // GET: /Account/Login 
+        [HttpGet("Login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> LoginView(string returnUrl = null)
+        {
+            await HttpContext.Authentication.SignOutAsync(_externalCookieScheme);
+            ViewData["ReturnUrl"] = returnUrl;
+            return View("Login");
+        }
+
+        //
         // POST: /Account/Login
         [HttpPost("Login")]
         [AllowAnonymous]

@@ -15,6 +15,7 @@ namespace PressRelease.Controllers
 {
     [Route("/api/repository")]
     [Authorize]
+    // [ValidateAntiForgeryToken]
     public class RepositoriesApiController : Controller
     {
         private readonly IGitHubClientProvider _githubClientProvider;
@@ -35,7 +36,7 @@ namespace PressRelease.Controllers
                 Visibility = RepositoryVisibility.All
             };
             var repositories = await githubClient.Repository.GetAllForCurrent(requestOptions);
-            var results = repositories.Select(r => new RepositoryModel { Name = r.Name, Description = r.Description });
+            var results = repositories.Select(r => new RepositoryModel { Name = r.FullName, Description = r.Description });
             return Json(results);
         }
     }

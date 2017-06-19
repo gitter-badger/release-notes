@@ -22,6 +22,7 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Octokit;
 using Microsoft.AspNetCore.Identity;
 using PressRelease.Services;
+using System.Net;
 
 namespace PressRelease
 {
@@ -95,15 +96,6 @@ namespace PressRelease
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                SlidingExpiration = true,
-                ExpireTimeSpan = TimeSpan.FromDays(30),
-                AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme
-            });
-
             app.UseGitHubAuthentication(new GitHubAuthenticationOptions
             {
                 SaveTokens = true,
