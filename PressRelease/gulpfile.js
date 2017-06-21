@@ -36,6 +36,8 @@ gulp.task("bsfonts", function (cb) {
         gulp.dest("wwwroot")], cb);
 });
 
+//TODO: yarn add -D browserify babelify
+//TODO: https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-uglify-sourcemap.md
 gulp.task("bundle:js", function () {
     var tasks = getBundles(regex.js).map(function (bundle) {
         if (bundle.minifyOnly) return [];
