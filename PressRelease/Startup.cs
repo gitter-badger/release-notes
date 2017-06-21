@@ -54,9 +54,38 @@ namespace PressRelease
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, IdentityRole>(
+                o =>
+                {
+                    o.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents()
+                    {
+                        OnRedirectToLogin = (ctx) =>
+                        {
+                            if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == 200)
+                            {
+                                ctx.Response.StatusCode = 401;
+                            }
+                            else
+                            {
+                                ctx.Response.Redirect(ctx.RedirectUri);
+                            }
+                            return Task.CompletedTask;
+                        },
+                        OnRedirectToAccessDenied = (ctx) =>
+                        {
+                            if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == 200)
+                            {
+                                ctx.Response.StatusCode = 403;
+                            }
+                            else
+                            {
+                                ctx.Response.Redirect(ctx.RedirectUri);
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc()
                     .AddJsonOptions(o =>
