@@ -25,6 +25,7 @@
     "jquery-validation": "^1.16.0",
     "jquery-validation-unobtrusive": "^3.2.6",
     "merge-stream": "^1.0.1",
+    "pump": "^1.0.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   },
