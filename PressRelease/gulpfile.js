@@ -79,6 +79,7 @@ gulp.task("min:js", function () {
         return pump([
             gulp.src(bundle.inputFiles, { base: "." }),
             sourcemaps.init(),
+            babel(),
             concat(makeMinified(bundle.outputFileName)),
             uglify(),
             sourcemaps.write("."),
