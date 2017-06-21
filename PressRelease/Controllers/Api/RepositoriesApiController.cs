@@ -15,7 +15,7 @@ namespace PressRelease.Controllers
 {
     [Route("/api/repository")]
     [Authorize]
-    // [ValidateAntiForgeryToken]
+    [ValidateAntiForgeryToken]
     public class RepositoriesApiController : Controller
     {
         private readonly IGitHubClientProvider _githubClientProvider;
