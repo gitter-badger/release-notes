@@ -5,6 +5,7 @@ var gulp = require("gulp"),
     cssmin = require("gulp-cssmin"),
     htmlmin = require("gulp-htmlmin"),
     uglify = require("gulp-uglify"),
+    babel = require("gulp-babel"),
     sourcemaps = require("gulp-sourcemaps"),
     merge = require("merge-stream"),
     del = require("del"),
@@ -70,6 +71,7 @@ gulp.task("min:js", function () {
     var tasks = getBundles(regex.js).map(function (bundle) {
         return gulp.src(bundle.inputFiles, { base: "." })
             .pipe(sourcemaps.init())
+            .pipe(babel())
             .pipe(concat(makeMinified(bundle.outputFileName)))
             .pipe(uglify())
             .pipe(sourcemaps.write("."))
