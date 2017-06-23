@@ -31,7 +31,9 @@ function browserifyShare(options) {
     var browserifyOptions = assign({}, watchify.args, {
         entries: ['./Components/site.js'],
         debug: true,
-        transform: [['babelify']]
+        transform: [
+            ['babelify', { presets: ["env", "react"] }]
+        ]
     });
     var b = browserify(browserifyOptions);
     b.on('log', gutil.log);
