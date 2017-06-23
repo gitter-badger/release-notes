@@ -11,23 +11,30 @@
   },
   "devDependencies": {
     "babel-preset-env": "^1.5.2",
+    "babelify": "^7.3.0",
     "bootstrap": "^3.3.7",
+    "browserify": "^14.4.0",
     "del": "^2.2.2",
     "font-awesome": "^4.7.0",
     "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.1",
     "gulp-cssmin": "^0.2.0",
     "gulp-htmlmin": "^3.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-plumber": "^1.1.0",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
     "jquery": "^3.2.1",
     "jquery-validation": "^1.16.0",
     "jquery-validation-unobtrusive": "^3.2.6",
+    "lodash": "^4.17.4",
     "merge-stream": "^1.0.1",
-    "pump": "^1.0.2",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.9.0"
   },
   "dependencies": {}
 }

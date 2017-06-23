@@ -21,12 +21,6 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/js/site.js",
-    "inputFiles": [
-      "Components/**/.js"
-    ]
-  },
-  {
     "outputFileName": "wwwroot/css/site.min.css",
     "inputFiles": [
       "wwwroot/css/site.css"

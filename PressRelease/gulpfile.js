@@ -1,15 +1,22 @@
 "use strict";
 
 var gulp = require("gulp"),
-    pump = require('pump'),
+    browserify = require("browserify"),
+    babelify = require("babelify"),
+    watchify = require("watchify"),
+    gulpif = require("gulp-if"),
+    plumber = require('gulp-plumber'),
+    gutil = require('gulp-util'),
+    source = require('vinyl-source-stream'),
+    buffer = require('vinyl-buffer'),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
     htmlmin = require("gulp-htmlmin"),
     uglify = require("gulp-uglify"),
-    babel = require("gulp-babel"),
     sourcemaps = require("gulp-sourcemaps"),
     merge = require("merge-stream"),
     del = require("del"),
+    assign = require("lodash/assign"),
     bundleconfig = require("./bundleconfig.json");
 
 var regex = {
@@ -18,36 +25,73 @@ var regex = {
     js: /\.js$/
 };
 
+function browserifyShare(options) {
+    options = options || {};
+
+    var browserifyOptions = assign({}, watchify.args, {
+        entries: ['./Components/site.js'],
+        debug: true,
+        transform: [['babelify']]
+    });
+    var b = browserify(browserifyOptions);
+    b.on('log', gutil.log);
+
+    if (options.watch) {
+        // if watch is enable, wrap this bundle inside watchify
+        b = watchify(b);
+        b.on('update', function () {
+            bundleShare(b);
+        });
+    }
+    bundleShare(b, options.minify);
+}
+
+function bundleShare(b, minify) {
+    b.bundle()
+        .on('error', function (err) {
+            console.log(err.message);
+            this.emit('end');
+        })
+        .pipe(plumber())
+        .pipe(gulpif(minify, source('wwwroot/js/site.min.js'), source('wwwroot/js/site.js')))
+        .pipe(buffer())
+        .pipe(gulpif(minify, uglify()))
+        .pipe(sourcemaps.init({ loadMaps: true }))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('.'));
+}
+
 gulp.task("build", ["bundle", "min", "fonts"]);
-gulp.task("bundle", ["bundle:js", "bundle:css", "bundle:html"]);
-gulp.task("min", ["min:js", "min:css", "min:html"]);
+gulp.task("bundle", ["bundle:app", "bundle:js", "bundle:css", "bundle:html"]);
+gulp.task("min", ["min:app", "min:js", "min:css", "min:html"]);
 
 gulp.task("fonts", ["fafonts", "bsfonts"]);
 
-gulp.task("fafonts", function (cb) {
-    pump([
-        gulp.src("node_modules/font-awesome/fonts/*.*", { base: "node_modules/font-awesome/" }),
-        gulp.dest("wwwroot")], cb);
+gulp.task("fafonts", function () {
+    return gulp.src("node_modules/font-awesome/fonts/*.*", { base: "node_modules/font-awesome/" })
+        .pipe(plumber())
+        .pipe(gulp.dest("wwwroot"));
 });
 
-gulp.task("bsfonts", function (cb) {
-    pump([
-        gulp.src("node_modules/bootstrap/dist/fonts/*.*", { base: "node_modules/bootstrap/dist/" }),
-        gulp.dest("wwwroot")], cb);
+gulp.task("bsfonts", function () {
+    return gulp.src("node_modules/bootstrap/dist/fonts/*.*", { base: "node_modules/bootstrap/dist/" })
+        .pipe(plumber())
+        .pipe(gulp.dest("wwwroot"));
 });
 
-//TODO: yarn add -D browserify babelify
-//TODO: https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-uglify-sourcemap.md
+gulp.task("bundle:app", function () {
+    return browserifyShare({ minify: false });
+});
+
 gulp.task("bundle:js", function () {
     var tasks = getBundles(regex.js).map(function (bundle) {
         if (bundle.minifyOnly) return [];
-        return pump([
-            gulp.src(bundle.inputFiles, { base: "." }),
-            sourcemaps.init(),
-            babel(),
-            concat(bundle.outputFileName),
-            sourcemaps.write("."),
-            gulp.dest(".")]);
+        return gulp.src(bundle.inputFiles, { base: "." })
+            .pipe(plumber())
+            .pipe(sourcemaps.init())
+            .pipe(concat(bundle.outputFileName))
+            .pipe(sourcemaps.write("."))
+            .pipe(gulp.dest("."));
     });
     return merge(tasks);
 });
@@ -55,12 +99,12 @@ gulp.task("bundle:js", function () {
 gulp.task("bundle:css", function () {
     var tasks = getBundles(regex.css).map(function (bundle) {
         if (bundle.minifyOnly) return [];
-        return pump([
-            gulp.src(bundle.inputFiles, { base: "." }),
-            sourcemaps.init(),
-            concat(bundle.outputFileName),
-            sourcemaps.write("."),
-            gulp.dest(".")]);
+        return gulp.src(bundle.inputFiles, { base: "." })
+            .pipe(plumber())
+            .pipe(sourcemaps.init())
+            .pipe(concat(bundle.outputFileName))
+            .pipe(sourcemaps.write("."))
+            .pipe(gulp.dest("."));
     });
     return merge(tasks);
 });
@@ -68,49 +112,51 @@ gulp.task("bundle:css", function () {
 gulp.task("bundle:html", function () {
     var tasks = getBundles(regex.html).map(function (bundle) {
         if (bundle.minifyOnly) return [];
-        return pump([
-            gulp.src(bundle.inputFiles, { base: "." }),
-            concat(bundle.outputFileName),
-            gulp.dest(".")]);
+        return gulp.src(bundle.inputFiles, { base: "." })
+            .pipe(plumber())
+            .pipe(concat(bundle.outputFileName))
+            .pipe(gulp.dest("."));
     });
     return merge(tasks);
 });
 
+gulp.task("min:app", function () {
+    return browserifyShare({ minify: true });
+});
+
 gulp.task("min:js", function () {
     var tasks = getBundles(regex.js).map(function (bundle) {
-        return pump([
-            gulp.src(bundle.inputFiles, { base: "." }),
-            sourcemaps.init(),
-            babel(),
-            concat(makeMinified(bundle.outputFileName)),
-            uglify(),
-            sourcemaps.write("."),
-            gulp.dest(".")]);
+        return gulp.src(bundle.inputFiles, { base: "." })
+            .pipe(plumber())
+            .pipe(sourcemaps.init())
+            .pipe(concat(makeMinified(bundle.outputFileName)))
+            .pipe(uglify())
+            .pipe(sourcemaps.write("."))
+            .pipe(gulp.dest("."));
     });
     return merge(tasks);
 });
 
 gulp.task("min:css", function () {
     var tasks = getBundles(regex.css).map(function (bundle) {
-        return pump([
-            gulp.src(bundle.inputFiles, { base: "." }),
-            sourcemaps.init(),
-            concat(makeMinified(bundle.outputFileName)),
-            cssmin(),
-            sourcemaps.write("."),
-            gulp.dest(".")]);
+        return gulp.src(bundle.inputFiles, { base: "." })
+            .pipe(plumber())
+            .pipe(sourcemaps.init())
+            .pipe(concat(makeMinified(bundle.outputFileName)))
+            .pipe(cssmin())
+            .pipe(sourcemaps.write("."))
+            .pipe(gulp.dest("."));
     });
     return merge(tasks);
 });
 
 gulp.task("min:html", function () {
     var tasks = getBundles(regex.html).map(function (bundle) {
-        return pump([
-            gulp.src(bundle.inputFiles, { base: "." }),
-            concat(makeMinified(bundle.outputFileName)),
-            htmlmin({ collapseWhitespace: true, minifyCSS: true, minifyJS: true }),
-            sourcemaps.write("."),
-            gulp.dest(".")]);
+        return gulp.src(bundle.inputFiles, { base: "." })
+            .pipe(plumber())
+            .pipe(concat(makeMinified(bundle.outputFileName)))
+            .pipe(htmlmin({ collapseWhitespace: true, minifyCSS: true, minifyJS: true }))
+            .pipe(gulp.dest("."));
     });
     return merge(tasks);
 });
@@ -120,12 +166,14 @@ gulp.task("clean", function () {
         return bundle.outputFileName;
     });
     files.push("wwwroot/**/*.map");
-    files.push("wwwroot/**/*.min.*");
+    files.push("wwwroot/**/*.js");
 
     return del(files);
 });
 
 gulp.task("watch", function () {
+    browserifyShare(true);
+
     getBundles(regex.js).forEach(function (bundle) {
         gulp.watch(bundle.inputFiles, ["bundle:js", "min:js"]);
     });
