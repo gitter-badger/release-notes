@@ -7,14 +7,15 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <div class="navbar-right nav">
-                <div class="navbar-text">Hello @UserManager.GetUserName(User)!</div>
-    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
-            </li>
-        </ul>
-    </form></div>
+        <div class="navbar-text">Hello @UserManager.GetUserName(User)!</div>
+        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
+                </li>
+            </ul>
+        </form>
+    </div>
 }
 else
 {
