@@ -17,6 +17,7 @@ var gulp = require("gulp"),
     merge = require("merge-stream"),
     del = require("del"),
     assign = require("lodash/assign"),
+    uglifyify = require("uglifyify"),
     bundleconfig = require("./bundleconfig.json");
 
 var regex = {
@@ -28,13 +29,29 @@ var regex = {
 function browserifyShare(options) {
     options = options || {};
 
+    let transforms = [];
+    let plugins = [];
+    transforms.push(
+        ['babelify', { presets: ["env", "react"] }]
+    );
+
+    if (options.minify) {
+        transforms.push(
+            ['envify', { global: true, 'NODE_ENV': 'production' }],
+            [uglifyify, { global: true }]
+        );
+
+        plugins.push(
+            ['bundle-collapser/plugin']);
+    }
+
     var browserifyOptions = assign({}, watchify.args, {
         entries: ['./Components/site.js'],
         debug: true,
-        transform: [
-            ['babelify', { presets: ["env", "react"] }]
-        ]
+        transform: transforms,
+        plugin: plugins
     });
+
     var b = browserify(browserifyOptions);
     b.on('log', gutil.log);
 
@@ -45,19 +62,19 @@ function browserifyShare(options) {
             bundleShare(b);
         });
     }
-    bundleShare(b, options.minify);
+    return bundleShare(b, options);
 }
 
-function bundleShare(b, minify) {
-    b.bundle()
+function bundleShare(b, options) {
+    return b.bundle()
         .on('error', function (err) {
             console.log(err.message);
             this.emit('end');
         })
         .pipe(plumber())
-        .pipe(gulpif(minify, source('wwwroot/js/site.min.js'), source('wwwroot/js/site.js')))
+        .pipe(gulpif(options.minify, source('wwwroot/js/site.min.js'), source('wwwroot/js/site.js')))
         .pipe(buffer())
-        .pipe(gulpif(minify, uglify()))
+        .pipe(gulpif(options.minify, uglify({ compress: true, mangle: true })))
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('.'));
@@ -174,7 +191,7 @@ gulp.task("clean", function () {
 });
 
 gulp.task("watch", function () {
-    browserifyShare(true);
+    browserifyShare({ watch: true });
 
     getBundles(regex.js).forEach(function (bundle) {
         gulp.watch(bundle.inputFiles, ["bundle:js", "min:js"]);
