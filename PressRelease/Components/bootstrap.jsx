@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import PressRelease from './press-release.jsx';
+
 var clientAppNode = document.getElementById('client-app');
 if (clientAppNode) {
     ReactDOM.render(
-        <h1>Hello, world!</h1>,
+        <PressRelease />,
         clientAppNode
     );
 }

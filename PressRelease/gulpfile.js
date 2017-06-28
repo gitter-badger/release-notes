@@ -17,7 +17,6 @@ var gulp = require("gulp"),
     merge = require("merge-stream"),
     del = require("del"),
     assign = require("lodash/assign"),
-    uglifyify = require("uglifyify"),
     bundleconfig = require("./bundleconfig.json");
 
 var regex = {
@@ -32,13 +31,14 @@ function browserifyShare(options) {
     let transforms = [];
     let plugins = [];
     transforms.push(
-        ['babelify', { presets: ["env", "react"] }]
+        ['babelify', { presets: ["env", "react"] }],
+        ['browserify-css', { minify: options.minify, autoInject: true }]
     );
 
     if (options.minify) {
         transforms.push(
             ['envify', { global: true, 'NODE_ENV': 'production' }],
-            [uglifyify, { global: true }]
+            [require('uglifyify'), { global: true }]
         );
 
         plugins.push(
