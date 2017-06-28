@@ -38,13 +38,14 @@
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
   <Target Name="MyPreCompileTargetDebug" BeforeTargets="Build">
-    <Exec Command="gulp build" />
+    <Exec Command="yarn run -s flow check" />
+    <Exec Command="yarn run -s gulp build" />
   </Target>
   <!-- We should use AfterTargets="Restore" here but that doesn't work when building from the SLN directory. This is a workaround. -->
   <Target Name="MyPostRestoreTarget" AfterTargets="_GenerateRestoreProjectSpec">
     <Exec Command="yarn" />
   </Target>
   <Target Name="MyPostCleanTarget" AfterTargets="Clean">
-    <Exec Command="gulp clean" />
+    <Exec Command="yarn run -s gulp clean" />
   </Target>
 </Project>

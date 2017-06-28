@@ -1,0 +1,10 @@
+[ignore]
+.*/bin/.*
+.*/obj/.*
+.*/wwwroot/.*
+
+[include]
+./Components/.*
+
+[libs]
+./flow-typed

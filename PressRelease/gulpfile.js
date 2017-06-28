@@ -31,7 +31,7 @@ function browserifyShare(options) {
     let transforms = [];
     let plugins = [];
     transforms.push(
-        ['babelify', { presets: ["env", "react"] }],
+        ['babelify', { presets: ["env", "react", "flow"] }],
         ['browserify-css', { minify: options.minify, autoInject: true }]
     );
 
@@ -59,10 +59,21 @@ function browserifyShare(options) {
         // if watch is enable, wrap this bundle inside watchify
         b = watchify(b);
         b.on('update', function () {
-            bundleShare(b);
+            flow();
+            bundleShare(b, options);
         });
     }
     return bundleShare(b, options);
+}
+
+function flow() {
+    const child_process = require('child_process');
+    const dir = process.cwd();
+    const client_root = dir.charAt(0).toLowerCase() + dir.slice(1);
+    try {
+        child_process.execSync(`yarn run -s flow status ${client_root}`, { stdio: [0, 1, 2] });
+    } catch (err) {
+    }
 }
 
 function bundleShare(b, options) {

@@ -1,4 +1,4 @@
-import React from 'react';
+'use strict'
 import ReactDOM from 'react-dom';
 
 import PressRelease from './press-release.jsx';
