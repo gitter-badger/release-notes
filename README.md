@@ -39,3 +39,7 @@ NOTE: In order to run, you may need to either:
 
 -or-
 - Add a user-secret for `ApplicationInsights:InstrumentationKey`, setting it to your Application Insights instrumentation key.
+
+## Authors
+This project is authored by:
+- [Jeff Yates](https://github.com/somewhatabstract)

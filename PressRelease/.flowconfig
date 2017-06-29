@@ -2,6 +2,7 @@
 .*/bin/.*
 .*/obj/.*
 .*/wwwroot/.*
+.*/node_modules/styled-components/.*
 
 [include]
 ./Components/.*

@@ -33,11 +33,15 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.1" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.1" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
-  <Target Name="MyPreCompileTargetDebug" BeforeTargets="Build">
+  <ItemGroup>
+    <Watch Exclude=".\wwwroot\**\*" />
+  </ItemGroup>
+  <Target Name="MyPreCompileTargetDebug" BeforeTargets="Build" Condition="'$(DotNetWatchBuild)'=='false'">
     <Exec Command="yarn run -s flow check" />
     <Exec Command="yarn run -s gulp build" />
   </Target>
