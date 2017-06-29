@@ -1,4 +1,6 @@
 # Press Release
+
+[![Join the chat at https://gitter.im/release-notes/Lobby](https://badges.gitter.im/release-notes/Lobby.svg)](https://gitter.im/release-notes/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 This is a website for creating release notes by collating relevant information from GitHub.
 
 
