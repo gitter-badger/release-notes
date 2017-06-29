@@ -1,13 +1,13 @@
 {
-  "name": "press-release",
+  "name": "release-notes",
   "version": "0.0.1",
   "private": true,
   "description": "Utility for generating release notes from GitHub commits/PRs/Issues",
-  "repository": "git@github.com:somewhatabstract/PressRelease",
+  "repository": "git@github.com:somewhatabstract/release-notes",
   "author": "Jeff Yates <jeff.yates@alumni.manchester.ac.uk>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/somewhatabstract/PressRelease/issues"
+    "url": "https://github.com/somewhatabstract/release-notes/issues"
   },
   "scripts": {
     "do:build": "dotnet build",

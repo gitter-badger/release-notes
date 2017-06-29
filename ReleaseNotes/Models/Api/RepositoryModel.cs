@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PressRelease.Models.Api
+namespace ReleaseNotes.Models.Api
 {
     public class RepositoryModel
     {

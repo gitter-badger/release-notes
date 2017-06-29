@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PressRelease.Models;
+using ReleaseNotes.Models;
 
-namespace PressRelease.Data
+namespace ReleaseNotes.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

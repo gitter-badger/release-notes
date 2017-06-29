@@ -1,4 +1,4 @@
-namespace PressRelease.Services
+namespace ReleaseNotes.Services
 {
     public class GitHubClientProviderOptions
     {

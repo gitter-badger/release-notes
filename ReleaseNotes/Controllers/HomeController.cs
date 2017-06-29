@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Octokit;
-using PressRelease.Models;
+using ReleaseNotes.Models;
 using AspNet.Security.OAuth.GitHub;
 
-namespace PressRelease.Controllers
+namespace ReleaseNotes.Controllers
 {
     public class HomeController : Controller
     {

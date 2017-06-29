@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Octokit;
-using PressRelease.Models;
+using ReleaseNotes.Models;
 using AspNet.Security.OAuth.GitHub;
 using Microsoft.AspNetCore.Authorization;
-using PressRelease.Services;
-using PressRelease.Models.Api;
+using ReleaseNotes.Services;
+using ReleaseNotes.Models.Api;
 
-namespace PressRelease.Controllers
+namespace ReleaseNotes.Controllers
 {
     [Route("/api/repository")]
     [Authorize]

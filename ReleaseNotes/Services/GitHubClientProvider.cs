@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Octokit;
 
-namespace PressRelease.Services
+namespace ReleaseNotes.Services
 {
     public class GitHubClientProvider<TUser> : IGitHubClientProvider where TUser : class
     {

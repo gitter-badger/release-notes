@@ -2,7 +2,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Octokit;
 
-namespace PressRelease.Services
+namespace ReleaseNotes.Services
 {
     public interface IGitHubClientProvider
     {

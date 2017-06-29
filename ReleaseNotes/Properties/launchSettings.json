@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "PressRelease": {
+    "ReleaseNotes": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

@@ -11,7 +11,7 @@ let x = function (): string {
     return 5;
 };
 
-const PressRelease = (props: any) => (
+const ReleaseNotes = (props: any) => (
     <form>
         <label>
             <span>Select a repository:</span>
@@ -32,4 +32,4 @@ const PressRelease = (props: any) => (
     </form>
 );
 
-module.exports = PressRelease;
+module.exports = ReleaseNotes;

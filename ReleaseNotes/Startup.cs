@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PressRelease.Data;
-using PressRelease.Models;
+using ReleaseNotes.Data;
+using ReleaseNotes.Models;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -21,10 +21,10 @@ using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.ApplicationInsights.Extensibility;
 using Octokit;
 using Microsoft.AspNetCore.Identity;
-using PressRelease.Services;
+using ReleaseNotes.Services;
 using System.Net;
 
-namespace PressRelease
+namespace ReleaseNotes
 {
     public class Startup
     {
