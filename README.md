@@ -1,7 +1,7 @@
-# Press Release
+# Release Notes
 This is a website for creating release notes by collating relevant information from GitHub. It is also a learning exercise.
 
-## Building Press Release
+## Building Release Notes
 The build chain uses the `dotnet` CLI, `gulp`, and `yarn`, with `browserify` and `flow`.
 
 1. Install `yarn` and `dotnet`
@@ -10,7 +10,7 @@ The build chain uses the `dotnet` CLI, `gulp`, and `yarn`, with `browserify` and
 1. Run `dotnet build` to build the solution
 
 ## Development
-Press Release has been developed using Visual Studio Code, ASP.NET Core, and React.
+Release Notes has been developed using Visual Studio Code, ASP.NET Core, and React.
 
 ### Visual Studio Code
 #### Flow Types
@@ -40,7 +40,7 @@ Updating everything with a build is tedious when developing. To make things nice
         - You can also browse to `localhost:3001` to use BrowserSync features
 
 
-## Running Press Release locally
+## Running Release Notes locally
 ASP.NET Core sites run on Linux, OS/X, or Windows using the `dotnet` command line tools.
 
 1. Configure the GitHub client information
