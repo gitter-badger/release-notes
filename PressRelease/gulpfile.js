@@ -208,10 +208,8 @@ gulp.task("watch", function () {
     browserSync.init({
         proxy: 'localhost:5000',
         notify: true,
-        open: true,
         reloadDebounce: 500,
-        reloadDelay: 1000,
-        logLevel: 'debug'
+        reloadDelay: 1000
     });
 
     browserifyShare({ watch: true });

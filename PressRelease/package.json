@@ -14,7 +14,9 @@
     "do:publish": "dotnet publish",
     "do:runasdev": "cross-env ASPNETCORE_ENVIRONMENT=Development dotnet run",
     "do:watch": "cross-env ASPNETCORE_ENVIRONMENT=Development concurrently --kill-others --raw \"gulp watch\" \"dotnet watch run\"",
-    "do:watchclientonly": "cross-env ASPNETCORE_ENVIRONMENT=Development concurrently --kill-others --raw \"gulp watch\" \"dotnet run\""
+    "do:watchclientonly": "cross-env ASPNETCORE_ENVIRONMENT=Development concurrently --kill-others --raw \"gulp watch\" \"dotnet run\"",
+    "do:watchclient": "gulp watch",
+    "do:watchserver": "cross-env ASPNETCORE_ENVIRONMENT=Development dotnet watch run"
   },
   "devDependencies": {
     "babel-preset-env": "^1.5.2",

@@ -23,10 +23,21 @@ Updating everything with a build is tedious when developing. To make things nice
     - Generally, use this option. It watches everything and will auto-refresh the browser if the server DLL or client-side files change.
     1. From solution folder, `cd PressRelease`
     1. `yarn do:watch`
+    1. Browse to `localhost:3000`
+        - You can also browse to `localhost:3001` to use BrowserSync features
 1. Client-side only
     - Use this option if you only intend to play around with the client-side code against an unchanging backend
     1. From solution folder, `cd PressRelease`
     1. `yarn do:watchclientonly`
+    1. Browse to `localhost:3000`
+        - You can also browse to `localhost:3001` to use BrowserSync features
+1. Server and client in separate terminals
+    - This is the same as the first option, except that the output of client-side and server-side watches can be run in independent terminals
+    1. From solution folder, `cd PressRelease`
+    1. In one terminal, run `yarn do:watchserver`
+    1. In another terminal, run `yarn do:watchclient`
+    1. Browse to `localhost:3000`
+        - You can also browse to `localhost:3001` to use BrowserSync features
 
 
 ## Running Press Release locally
@@ -37,6 +48,7 @@ ASP.NET Core sites run on Linux, OS/X, or Windows using the `dotnet` command lin
 1. - Do
         1. `cd PressRelease`
         1. `yarn do:runasdev`
+        1. Navigate your browser to `http://localhost:5000`
     - or
         1. Open solution folder in Visual Studio Code
         1. Press `F5` or `Ctrl+F5`
