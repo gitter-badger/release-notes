@@ -39,7 +39,7 @@
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
   <ItemGroup>
-    <Watch Exclude=".\wwwroot\**\*" />
+    <Watch Include="**/*.cshtml" />
   </ItemGroup>
   <Target Name="MyPreCompileTargetDebug" BeforeTargets="Build" Condition="'$(DotNetWatchBuild)'=='false'">
     <Exec Command="yarn run -s flow check" />

@@ -19,6 +19,8 @@ var gulp = require("gulp"),
     assign = require("lodash/assign"),
     bundleconfig = require("./bundleconfig.json");
 
+const browserSync = require("browser-sync").create();
+
 var regex = {
     css: /\.css$/,
     html: /\.(html|htm)$/,
@@ -60,7 +62,8 @@ function browserifyShare(options) {
         b = watchify(b);
         b.on('update', function () {
             flow();
-            bundleShare(b, options);
+            bundleShare(b, options)
+                .pipe(browserSync.stream({ match: '**/*.js' }));
         });
     }
     return bundleShare(b, options);
@@ -202,19 +205,34 @@ gulp.task("clean", function () {
 });
 
 gulp.task("watch", function () {
+    browserSync.init({
+        proxy: 'localhost:5000',
+        notify: true,
+        open: true,
+        reloadDebounce: 500,
+        reloadDelay: 1000,
+        logLevel: 'debug'
+    });
+
     browserifyShare({ watch: true });
 
     getBundles(regex.js).forEach(function (bundle) {
-        gulp.watch(bundle.inputFiles, ["bundle:js", "min:js"]);
+        gulp.watch(bundle.inputFiles, ["bundle:js", "min:js"])
+            .on('change', browserSync.reload);
     });
 
     getBundles(regex.css).forEach(function (bundle) {
-        gulp.watch(bundle.inputFiles, ["bundle:css", "min:css"]);
+        gulp.watch(bundle.inputFiles, ["bundle:css", "min:css"])
+            .on('change', browserSync.reload);
     });
 
     getBundles(regex.html).forEach(function (bundle) {
-        gulp.watch(bundle.inputFiles, ["bundle:html", "min:html"]);
+        gulp.watch(bundle.inputFiles, ["bundle:html", "min:html"])
+            .on('change', browserSync.reload);
     });
+
+    gulp.watch('bin/Debug/netcoreapp1.1/*')
+        .on('change', browserSync.reload);
 });
 
 function getBundles(regexPattern, minify) {

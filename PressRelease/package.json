@@ -12,8 +12,9 @@
   "scripts": {
     "do:build": "dotnet build",
     "do:publish": "dotnet publish",
-    "do:watch": "concurrently --kill-others --raw \"gulp watch\" \"dotnet watch run\"",
-    "do:watchclientonly": "gulp watch"
+    "do:runasdev": "cross-env ASPNETCORE_ENVIRONMENT=Development dotnet run",
+    "do:watch": "cross-env ASPNETCORE_ENVIRONMENT=Development concurrently --kill-others --raw \"gulp watch\" \"dotnet watch run\"",
+    "do:watchclientonly": "cross-env ASPNETCORE_ENVIRONMENT=Development concurrently --kill-others --raw \"gulp watch\" \"dotnet run\""
   },
   "devDependencies": {
     "babel-preset-env": "^1.5.2",
@@ -21,10 +22,12 @@
     "babel-preset-react": "^6.24.1",
     "babelify": "^7.3.0",
     "bootstrap": "^3.3.7",
+    "browser-sync": "^2.18.12",
     "browserify": "^14.4.0",
     "browserify-css": "^0.10.1",
     "bundle-collapser": "^1.2.1",
     "concurrently": "^3.5.0",
+    "cross-env": "^5.0.1",
     "del": "^2.2.2",
     "envify": "^4.0.0",
     "flow-bin": "^0.49.1",

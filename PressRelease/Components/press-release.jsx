@@ -24,7 +24,7 @@ const PressRelease = (props: any) => (
         <label>
             <span>Select a branch:</span>
             <select>
-                <option value="1">Branchify 1</option>
+                <option value="1">Branch 1</option>
                 <option value="2">Branch 2</option>
                 <option value="3">Branch 3</option>
             </select>
